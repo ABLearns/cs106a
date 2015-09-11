@@ -1,0 +1,83 @@
+/* Created by AB
+ * Create a checkerboard with Karel
+ * TODO: comment this program
+ */
+
+import stanford.karel.*;
+
+public class Checkerboard extends SuperKarel {
+	
+	public void run() {
+		putBeeper();
+		while(leftIsClear()){
+			if (frontIsClear()){
+				move();
+				populateRow();
+			} else {
+				if (facingEast()){
+					turnLeftAndMoveUp();
+				} else if (facingWest() && rightIsClear()){
+					
+					turnRightAndMoveUp();
+				} else {
+					//when at top end corner
+					turnRight();
+				}
+				
+			}
+		} 
+		//for the top most row 
+		while (facingEast() && leftIsBlocked() && frontIsClear()) {
+			
+			if (beepersPresent()){
+				move();
+				populateRow();
+			} else {
+				populateRow();
+			}
+		}
+
+		
+		
+	}
+	//put beeper alternately in entire row
+	private void populateRow(){
+		
+		if (frontIsClear()){
+			move();
+			putBeeper();
+			
+		} 
+	}
+	
+	//move up when at row end and facing east
+	private void turnLeftAndMoveUp(){
+		
+		turnLeft();
+		if (frontIsClear() && beepersPresent()){
+			move();
+			turnLeft();
+			populateRow();
+		}else if (frontIsClear() && noBeepersPresent()) {
+			
+			populateRow();
+			turnLeft();
+			
+		}
+		
+		
+	}
+	//move up when at row end and facing west
+	private void turnRightAndMoveUp(){
+		
+		turnRight();
+		if (frontIsClear()){
+			move();
+			putBeeper();
+		}
+		turnRight();
+		
+	}
+	
+	
+}
